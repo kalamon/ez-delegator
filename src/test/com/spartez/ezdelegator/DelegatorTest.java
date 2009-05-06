@@ -2,6 +2,7 @@ package com.spartez.ezdelegator;
 
 import junit.framework.TestCase;
 import com.spartez.ezdelegator.annotation.DelegatingClass;
+import com.spartez.ezdelegator.annotation.DelegatingClass2;
 
 /**
  * User: kalamon
@@ -116,4 +117,14 @@ public class DelegatorTest extends TestCase {
         int res2 = dc.t2(2, 3);
         assertEquals(5, res2);
     }
+
+    public void testSimpleAnnotationWithPrivateField() throws Exception {
+        DelegatingClass2 dc = Delegator.getInstance().createObject(DelegatingClass2.class);
+        assertNotNull(dc);
+        int res1 = dc.t(1);
+        assertEquals(2, res1);
+        int res2 = dc.t2(2, 3);
+        assertEquals(5, res2);
+    }
+
 }
