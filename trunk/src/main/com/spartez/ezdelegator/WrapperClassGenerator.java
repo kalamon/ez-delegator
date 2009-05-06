@@ -58,7 +58,7 @@ public class WrapperClassGenerator extends ClassAdapter implements Opcodes {
     }
 
     private void generateDelegatingMethod(Field field, java.lang.reflect.Method method) {
-        System.out.println("creating delegate in field " + field.getName() + " for method " + method.getDeclaringClass() + "." + method.getName());
+//        System.out.println("creating delegate in field " + field.getName() + " for method " + method.getDeclaringClass() + "." + method.getName());
         Method m = new Method(method.getName(), Type.getMethodDescriptor(method));
         MethodVisitor mv = cv.visitMethod(ACC_PUBLIC, m.getName(), m.getDescriptor(), null, null);
         Type[] argTypes = m.getArgumentTypes();
