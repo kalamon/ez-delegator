@@ -1,6 +1,7 @@
 package com.spartez.ezdelegator;
 
 import junit.framework.TestCase;
+import com.spartez.ezdelegator.annotation.DelegatingClass;
 
 /**
  * User: kalamon
@@ -31,6 +32,25 @@ public class DelegatorTest extends TestCase {
 
     public static class TestClass3 {
         public TestClass3() {
+        }
+    }
+
+    public static class TestClass4 {
+        private String s;
+        private int i;
+        private long l;
+
+        public TestClass4(String s, int i) {
+            this.s = s;
+            this.i = i;
+        }
+
+        public TestClass4(long l) {
+            this.l = l;
+        }
+
+        public String rev(String txt) {
+            return txt.toUpperCase();
         }
     }
 
@@ -76,4 +96,24 @@ public class DelegatorTest extends TestCase {
         assertNotNull(tc);
     }
 
+    public void testCreateTestClassObjectsWithTwoConstructors() throws Exception {
+        TestClass4 tc1 = Delegator.getInstance().createObject(TestClass4.class, "aaa", 1);
+        assertNotNull(tc1);
+        assertEquals(tc1.s,  "aaa");
+        assertEquals(tc1.i,  1);
+        TestClass4 tc2 = Delegator.getInstance().createObject(TestClass4.class, 2l);
+        assertNotNull(tc2);
+        assertEquals(tc2.l, 2l);
+        String result = tc2.rev("abc");
+        assertEquals("ABC", result);
+    }
+
+    public void testSimpleAnnotationWithProtectedField() throws Exception {
+        DelegatingClass dc = Delegator.getInstance().createObject(DelegatingClass.class);
+        assertNotNull(dc);
+        int res1 = dc.t(1);
+        assertEquals(2, res1);
+        int res2 = dc.t2(2, 3);
+        assertEquals(5, res2);
+    }
 }

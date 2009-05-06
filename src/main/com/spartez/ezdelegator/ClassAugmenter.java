@@ -9,6 +9,8 @@ import java.io.IOException;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.lang.reflect.Field;
+import java.util.Map;
+import java.util.HashMap;
 
 /**
  * User: kalamon
@@ -19,31 +21,31 @@ public class ClassAugmenter {
 
     public byte[] getClassBytes(Class clazz, String newName) {
 
-        processAnnotations(clazz);
-
         try {
             ClassWriter cw = new ClassWriter(ClassWriter.COMPUTE_MAXS);
-            ClassAdapter ca = new ClassRenamer(cw, newName);
+            ClassAdapter ca = new WrapperClassGenerator(cw, newName, processAnnotations(clazz));
             ClassReader cr = new ClassReader(clazz.getName());
             cr.accept(ca, 0);
 
-            File f = new File(newName);
+            File f = new File(newName.substring(newName.lastIndexOf('.') + 1) + ".class");
             new FileOutputStream(f).write(cw.toByteArray());
-            return cw.toByteArray();
 
+            return cw.toByteArray();
         } catch (IOException e) {
             return null;
         }
     }
 
-    private void processAnnotations(Class clazz) {
+    private Map<Field, Class> processAnnotations(Class clazz) {
+        Map<Field, Class> map = new HashMap<Field, Class>();
         Field[] fields = clazz.getDeclaredFields();
         for (Field field : fields) {
             Delegate d = field.getAnnotation(Delegate.class);
             if (d != null) {
                 Class ifc = d.ifc();
-                System.out.println("field: " + field.getName() + " is a delegate for: " + ifc.getName());
+                map.put(field, ifc);
             }
         }
+        return map;
     }
 }

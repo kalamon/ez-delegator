@@ -11,7 +11,7 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$MAVEN_REPOSITORY$/junit/junit/3.8.2/junit-3.8.2.jar!/" />
+          <root url="jar://$MODULE_DIR$/lib/asm-all-3.1.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -20,7 +20,7 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$MAVEN_REPOSITORY$/asm/asm/3.0/asm-3.0.jar!/" />
+          <root url="jar://$MODULE_DIR$/lib/junit-3.8.2.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
